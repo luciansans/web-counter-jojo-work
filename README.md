@@ -1,10 +1,10 @@
 # Web Counter
 
-# Deploying on Ubuntu (EC2)
-First, clone the repository in the `/home/ubuntu/app` folder:
+# Deploying on Ubuntu
+Clone the repository in the `$HOME/app` folder:
 ```
-git clone https://github.com/jonatasbaldin/web-counter.git /home/ubuntu/app
-cd /home/ubuntu/app
+git clone https://github.com/jonatasbaldin/web-counter.git $HOME/app
+cd $HOME/app
 ```
 
 ## Update APT cache
@@ -20,6 +20,9 @@ sudo apt install postgresql postgresql-contrib -y
 
 Create a user and database on PostgreSQL:
 ```
+# become root
+sudo su
+
 # logs into the psql shell
 sudo -u postgres psql
 
@@ -40,6 +43,9 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO mary;
 
 # exits the psql shell
 exit
+
+# exits the root shell
+exit
 ```
 
 ## Python
@@ -55,8 +61,8 @@ sudo apt install build-essential libssl-dev python3-dev libpq-dev -y
 
 Create a Python virtual environment:
 ```
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv $HOME/app/venv
+source $HOME/app/venv/bin/activate
 ```
 
 Install the Python dependencies:
@@ -67,7 +73,7 @@ pip install -r requirements.txt
 ## Python Service
 Run the Python application as a service (using `systemd`).
 
-Create the `/etc/systemd/system/app.service` file with the following content:
+Using elevated permissions, create the `/etc/systemd/system/app.service` file with the following content:
 ```
 [Unit]
 Description=Python App
@@ -80,6 +86,7 @@ Environment="DB_PASSWORD=123456A!"
 Environment="DB_HOST=localhost"
 
 User=root
+# set your correct app folder (the value from $HOME)
 WorkingDirectory=/home/ubuntu/app
 ExecStart=/home/ubuntu/app/venv/bin/python /home/ubuntu/app/app.py
 
@@ -115,7 +122,7 @@ location /api {
 
 Copy the `index.html` file to the `/var/www/html` folder:
 ```
-sudo cp index.html /var/www/html/
+sudo cp $HOME/app/index.html /var/www/html/
 ```
 
 Restart and check the Nginx service:
@@ -125,9 +132,4 @@ sudo systemctl status nginx
 ```
 
 ## Testing the Application
-Grab the external IP address by running:
-```
-curl ifconfig.me
-```
-
-On your web browser, access the IP given from the last command. You should see the application up and running!
+Test your application by accessing your environment name or address.
