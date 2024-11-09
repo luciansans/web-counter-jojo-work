@@ -3,7 +3,7 @@ name : assignment
 on:
   push:
     branches:
-    -main
+    - main
 
 jobs:
   test:
