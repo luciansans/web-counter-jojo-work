@@ -42,7 +42,7 @@ jobs:
           push: true
           context: .
           file: ./backend.dockerfile
-          tags: username/webcounter-backend:${{ github.sha }}
+          tags: luciansans/webcounter-backend:${{ github.sha }}
 
       # Build and push frontend Docker image
       - name: Build and push frontend
@@ -51,4 +51,4 @@ jobs:
           push: true
           context: .
           file: ./frontend.dockerfile
-          tags: username/webcounter-frontend:${{ github.sha }}
+          tags: luciansans/webcounter-frontend:${{ github.sha }}
