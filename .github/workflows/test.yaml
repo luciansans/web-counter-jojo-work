@@ -41,7 +41,7 @@ jobs:
         with:
           push: true
           context: ./backend  # Assuming backend Dockerfile is in the backend directory
-          file: ./backend/Dockerfile
+          file: ./backend.dockerfile
           tags: username/webcounter-backend:${{ github.sha }}
 
       # Build and push frontend Docker image
@@ -50,5 +50,5 @@ jobs:
         with:
           push: true
           context: ./frontend  # Assuming frontend Dockerfile is in the frontend directory
-          file: ./frontend/Dockerfile
+          file: ./frontend.dockerfile
           tags: username/webcounter-frontend:${{ github.sha }}
