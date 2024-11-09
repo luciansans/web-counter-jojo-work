@@ -1,19 +1,19 @@
-name : assignment 
+name: assignment
 
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-  steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Ree files
-      run: ls -lah
+    steps:
       
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      
+      - name: Read files
+        run: ls -lah
