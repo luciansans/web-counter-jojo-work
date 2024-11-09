@@ -40,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ./backend  # Assuming backend Dockerfile is in the backend directory
+          context: .
           file: ./backend.dockerfile
           tags: username/webcounter-backend:${{ github.sha }}
 
@@ -49,6 +49,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: ./frontend  # Assuming frontend Dockerfile is in the frontend directory
+          context: .
           file: ./frontend.dockerfile
           tags: username/webcounter-frontend:${{ github.sha }}
