@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Ensure the code is checked out
+        uses: actions/checkout@v4  
 
       - name: Test
         run: echo ${{ github.ref_name }}
@@ -25,7 +25,7 @@ jobs:
 
       # List files for debugging
       - name: List directory contents
-        run: ls -R  # To confirm the presence of backend.dockerfile
+        run: ls -R  # To confirm the presence of files
 
       # Build and push backend Docker image
       - name: Build and push
@@ -35,3 +35,13 @@ jobs:
           tags: luciansans/webcounter-backend:${{ github.ref_name }}
           context: .  
           file: ./backend.dockerfile
+
+
+      # Build and push frontend Docker image
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: luciansans/webcounter-frontend:${{ github.ref_name }}
+          context: .  
+          file: ./frontend.dockerfile
