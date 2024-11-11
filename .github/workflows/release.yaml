@@ -10,23 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
-      - name: Checkout the code
-        uses: actions/checkout@v4
-
-      # Set Python 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.8"
-
-      # Install dependencies and  tests 
-      - name: Install dependencies and run fake tests
-        run: |
-          echo "Installing dependencies..."
-          pip install -r requirements.txt  # Replace this with your actual test command if needed
-          echo "Running fake tests..."
-          sleep 3  # Fake test step (replace this with real tests)
+      - name: Test
+        uses: echo ${{ github.ref_name }}
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -40,15 +25,13 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
           file: ./backend.dockerfile
-          tags: luciansans/webcounter-backend:${{ github.sha }}
+          tags: luciansans/webcounter-backend:${{ github.ref_name }}
 
       
       - name: Build and push frontend
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
           file: ./frontend.dockerfile
-          tags: luciansans/webcounter-frontend:${{ github.sha }}
+          tags: luciansans/webcounter-frontend:${{ github.ref_name }}
