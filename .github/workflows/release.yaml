@@ -6,12 +6,12 @@ on:
       - published
 
 jobs:
-  release:
+  docker-build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Test
-        uses: echo ${{ github.ref_name }}
+        run: echo ${{ github.ref_name }}
 
       # Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -20,19 +20,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build and push backend&frontend Docker image
+      # Build and push backend Docker image
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: luciansans/webcounter-backend:${{ github.ref_name }}
-          file: ./backend.dockerfile
-          
-
-      
-  #    - name: Build and push frontend
-  #      uses: docker/build-push-action@v6
-  #     with:
-  #       push: true
-  #       file: ./frontend.dockerfile
-  #       tags: luciansans/webcounter-frontend:${{ github.ref_name }}
+          context: .  
+          file: ./backend.dockerfile  
