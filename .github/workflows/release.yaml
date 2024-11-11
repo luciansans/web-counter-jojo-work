@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Ensure the code is checked out
+
       - name: Test
         run: echo ${{ github.ref_name }}
 
@@ -20,6 +23,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # List files for debugging
+      - name: List directory contents
+        run: ls -R  # To confirm the presence of backend.dockerfile
+
       # Build and push backend Docker image
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -27,4 +34,4 @@ jobs:
           push: true
           tags: luciansans/webcounter-backend:${{ github.ref_name }}
           context: .  
-          file: ./backend.dockerfile  
+          file: ./backend.dockerfile
